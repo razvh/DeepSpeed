@@ -510,7 +510,7 @@ def _silu_flops_compute(input: Tensor, inplace: bool = False):
     return torch.numel(input), 0
 
 
-def _gelu_flops_compute(input):
+def _gelu_flops_compute(input, approximate=None):
     return torch.numel(input), 0
 
 
@@ -519,7 +519,9 @@ def _pool_flops_compute(
     kernel_size,
     stride=None,
     padding=0,
+    dillation=1,
     ceil_mode=False,
+    return_indices=False,
     count_include_pad=True,
     divisor_override=None,
 ):
@@ -671,7 +673,8 @@ def _upsample_flops_compute(input,
                             size=None,
                             scale_factor=None,
                             mode="nearest",
-                            align_corners=None):
+                            align_corners=None,
+                            recompute_scale_factor=None):
     if size is not None:
         if isinstance(size, tuple):
             return int(_prod(size)), 0
